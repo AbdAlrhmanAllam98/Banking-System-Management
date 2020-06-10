@@ -1,9 +1,9 @@
 package BankingSystem;
-public class Client {
+public class Client implements Viewer {
     String name;
     String address;
     String phone;
-
+    
     public Client(String name, String address, String phone) {
         this.name = name;
         this.address = address;
@@ -33,5 +33,12 @@ public class Client {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
+
+    @Override
+    public void view() {
+        System.out.println("name " + name);
+        System.out.println("address : " + address);
+        System.out.println("phone : " + phone);
+    }
+
 }
