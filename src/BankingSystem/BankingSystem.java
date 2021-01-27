@@ -8,16 +8,12 @@ public class BankingSystem {
     static ArrayList<BankAccount> allAccounts = new ArrayList<>();
     static Scanner input = new Scanner(System.in);
 
-    public static void View(Viewer viewer) {
-        viewer.view();
-    }
 
     static void showAllAccounts() {
         for (int i = 0; i < allAccounts.size(); i++) {
-            View(allAccounts.get(i));
-            System.out.println("/************************************/");
+            allAccounts.get(i).view();
+            System.out.println("/*******************************************/");
         }
-
     }
 
     static void searchForAccount() {
@@ -25,26 +21,27 @@ public class BankingSystem {
         int id = input.nextInt();
         int index = search(id);
         if (index == -1) {
-            System.out.println("error . account not found");
+            System.out.println("error...account not found");
             return;
         }
         allAccounts.get(index).view();
     }
 
-    static void deleteAccount() {
+    static boolean deleteAccount() {
         System.out.println("please enter account ID");
         int id = input.nextInt();
         int index = search(id);
         if (index == -1) {
-            System.out.println("error . account not found");
-            return;
+            System.out.println("error...account not found");
+            return false;
         }
 
         allAccounts.get(index).setOwner(null);
         allClients.get(index).setAccount(null);
-
+        
         allAccounts.remove(index);
         allClients.remove(index);
+        return true;
     }
 
     static void withdraw() {
@@ -68,7 +65,7 @@ public class BankingSystem {
             System.out.println("Account not Exist ");
             return;
         }
-        System.out.println("Enter your money ");
+        System.out.println("Enter the amount of money you want to deposit");
         int amount = input.nextInt();
         account.deposit(amount);
     }
@@ -90,8 +87,55 @@ public class BankingSystem {
         }
         return -1;
     }
+    
+    private static void addAccount() {
+        input.nextLine();
+        System.out.println("Enter Name of Client :");
+        String clientName=input.nextLine();
+        System.out.println("Enter Address of Client :");
+        String clientAddress=input.nextLine();
+        System.out.println("Enter Phone of Client :");
+        String clientPhone=input.nextLine();
+        
+        Client client=new Client(clientName, clientAddress, clientPhone);
+        System.out.println("1-Basic Bank Account\n2-Saving BankAccount");
+        
+        BankAccount account=null;
+        
+        double balance=0;
+        int option=input.nextInt();
+        
+        switch(option)
+        {
+            case 1:
+            {
+                System.out.println("Enter the amount of money ");
+                balance=input.nextDouble();
+                account=new BankAccount(balance);
+                break;
+            }
+            case 2:
+            {
+                System.out.println("Enter the amount of money considering minimum balance takes a default value of (1000 L.E)");
+                balance=input.nextDouble();
+                account=new SavingsBankAccount(balance);
+                break;
+            }
+            default:
+            {
+                System.out.println("Enter Valid Number ");
+            }
+        }
+        
+        client.setAccount(account);
+        account.setOwner(client);
+        
+        allClients.add(client);
+        allAccounts.add(account);
+    }
 
     public static void main(String[] args) {
+        dummyData();
         while (true) {
             System.out.println("1- add Account");
             System.out.println("2- search for account");
@@ -102,27 +146,45 @@ public class BankingSystem {
             System.out.println("7- exit");
 
             int option = input.nextInt();
-            if (option == 1) {
-                addAccount();
-            } else if (option == 2) {
-                searchForAccount();
-            } else if (option == 3) {
-                showAllAccounts();
-            } else if (option == 4) {
-                deleteAccount();
-            } else if (option == 5) {
-                deposit();
-            } else if (option == 6) {
-                withdraw();
-            } else if (option == 7) {
-                return;
+            switch (option) {
+                case 1:
+                    addAccount();
+                    break;
+                case 2:
+                    searchForAccount();
+                    break;
+                case 3:
+                    showAllAccounts();
+                    break;
+                case 4:
+                    deleteAccount();
+                    break;
+                case 5:
+                    deposit();
+                    break;
+                case 6:
+                    withdraw();
+                    break;
+                case 7:
+                    return;
+                default:
+                    break;
             }
         }
     }
 
-    private static void addAccount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static void dummyData() {
+        for(int i=0;i<10;i++)
+        {
+            BankAccount acc=new BankAccount(1000*i);
+            Client c1=new Client("client "+i , "address "+i, "012234"+i);
+            
+            c1.setAccount(acc);
+            acc.setOwner(c1);
+            
+            allClients.add(c1);
+            allAccounts.add(acc);
+        }
     }
+
 }
-
-
