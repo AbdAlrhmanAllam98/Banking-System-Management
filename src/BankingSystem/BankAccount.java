@@ -1,7 +1,7 @@
 package BankingSystem;
 
 public class BankAccount implements Viewer {
-  private static int IDS_GENERATOR=1000;
+    protected static int IDS_GENERATOR=1000;
     protected int accountId;
     protected double balance;
     protected Client owner;
@@ -56,8 +56,7 @@ public class BankAccount implements Viewer {
             return false;
         }
         balance+=amountOfMoney;
-        return true;
-        
+        return true;     
     }
 
     @Override
