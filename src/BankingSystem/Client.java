@@ -3,6 +3,7 @@ public class Client implements Viewer {
     String name;
     String address;
     String phone;
+    BankAccount account;
     
     public Client(String name, String address, String phone) {
         this.name = name;
@@ -34,11 +35,21 @@ public class Client implements Viewer {
         this.phone = phone;
     }
 
+    public BankAccount getAccount() {
+        return account;
+    }
+
+    public void setAccount(BankAccount account) {
+        this.account = account;
+    }
+    
+
     @Override
     public void view() {
-        System.out.println("name " + name);
-        System.out.println("address : " + address);
-        System.out.println("phone : " + phone);
+        System.out.println("Client Name " + name);
+        System.out.println("Client Address : " + address);
+        System.out.println("Client Phone : " + phone);
+        //System.out.println("Account id : "+account.accountId);
     }
 
 }
